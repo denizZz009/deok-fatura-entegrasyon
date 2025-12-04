@@ -1,0 +1,589 @@
+/* --- Genel Ayarlar ve Renk Paleti -- */
+:root {
+    --bg-color: #f4f7f9;
+    --card-bg-color: #ffffff;
+    --text-color: #333;
+    --text-light-color: #666;
+    --border-color: #e0e0e0;
+    --primary-color: #007bff;
+    --primary-hover-color: #0056b3;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Ana Konteyner ve Kart Yapısı -- */
+.container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 20px auto;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    text-align: center;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 30px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+h1 {
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    font-size: 1.1em;
+    color: var(--text-light-color);
+    line-height: 1.6;
+}
+
+/* --- Form Elemanları -- */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #fff;
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* --- Butonlar -- */
+button {
+    padding: 12px 20px;
+    margin: 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: #fff;
+}
+.btn-info:hover {
+    background-color: #138496;
+}
+
+/* --- Panel ve Kontrol Alanları -- */
+#login-section {
+    max-width: 400px;
+    margin: 40px auto;
+}
+
+#login-section input {
+    margin-bottom: 15px;
+}
+
+.controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.controls-container > * {
+    flex: 1 1 auto;
+}
+
+#search-box {
+    flex-grow: 2;
+}
+
+/* --- Fatura Listesi ve Tablo -- */
+#invoice-list {
+    overflow-x: auto;
+}
+
+.table-invoices {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-invoices th, .table-invoices td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.table-invoices th {
+    font-weight: 600;
+    color: var(--text-light-color);
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.table-invoices tr:last-child td {
+    border-bottom: none;
+}
+
+.table-invoices tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* --- Durum Etiketleri -- */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-onaylanmis {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #1a6c2e;
+}
+
+.status-taslak {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #8b6d04;
+}
+
+.status-iptal-edilmis,
+.status-iptal {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #9d222f;
+}
+
+.status-silinmis {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #5a6268;
+}
+
+/* --- Modal Yapısı -- */
+.modal {
+    position: fixed; z-index: 1000; left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    align-items: flex-start; /* Align to top */
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    width: 70%;
+    max-width: 3000px; /* Genişletilmiş boyut */
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.close-btn {
+    position: absolute; top: 15px; right: 20px;
+    color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer;
+}
+.close-btn:hover { color: #333; }
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h3 {
+    margin-top: 0; margin-bottom: 15px;
+    font-size: 1.2em; font-weight: 600;
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.full-width { grid-column: 1 / -1; }
+
+.toggle-section {
+    background: #eee; color: #555; width: 24px; height: 24px;
+    border-radius: 50%; margin-right: 10px; font-weight: bold;
+    padding: 0; line-height: 24px; border: 1px solid #ddd;
+}
+
+.collapsible.collapsed { display: none; }
+
+#invoice-items .item-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr auto auto;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+#invoice-items .item-row .item-total { text-align: right; font-weight: 600; }
+
+#invoice-items .item-row .remove-item-btn {
+    background-color: var(--danger-color);
+    color: #fff;
+    width: 40px; height: 40px; padding: 0;
+}
+
+/* --- Mesaj ve Bildirim Alanları -- */
+#progress, #login-message, #invoice-message, #sms-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 24px;
+    text-align: center;
+}
+
+#login-message, #sms-message, #invoice-message {
+    background-color: #f8d7da; color: #721c24; /* Hata Rengi */
+}
+
+#invoice-message[data-type="success"], #sms-message[data-type="success"] {
+    background-color: #d4edda; color: #155724; /* Başarı Rengi */
+}
+
+/* --- Responsive Ayarlamalar -- */
+@media (max-width: 768px) {
+    body { padding: 10px; }
+    .controls-container { flex-direction: column; }
+    #invoice-items .item-row { grid-template-columns: 1fr; }
+}
+
+/* --- Toast Bildirimleri --- */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Allows clicks through the container */
+}
+
+.toast {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    min-width: 250px;
+    max-width: 350px;
+    text-align: center;
+    pointer-events: auto; /* Re-enable clicks on the toast itself */
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.toast-success {
+    background-color: var(--success-color);
+}
+
+.toast-error {
+    background-color: var(--danger-color);
+}
+
+.toast-info {
+    background-color: var(--primary-color);
+}
+
+.toast-warning {
+    background-color: var(--warning-color);
+    color: var(--text-color); /* Ensure text is visible on yellow */
+}
+.required-field::placeholder {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.required-field {
+    border-color: var(--danger-color) !important;
+}
+
+/* --- Rapor Sistemi Stilleri --- */
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+#report-table {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#report-table th {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+#report-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+#report-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+#report-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#report-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 24px;
+    text-align: center;
+}
+
+#report-message[data-type="success"] {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+#report-message[data-type="error"] {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+#report-message[data-type="info"] {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* --- Toplu SMS Onay Stilleri --- */
+.invoice-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.invoice-row.selected {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+#bulk-sms-info {
+    border-left: 4px solid var(--primary-color);
+}
+
+#bulk-selected-invoices {
+    border: 1px solid #dee2e6;
+}
+
+.selected-invoice-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.selected-invoice-item .invoice-info {
+    flex: 1;
+}
+
+.selected-invoice-item .invoice-status {
+    font-size: 0.85em;
+    color: var(--text-light-color);
+}
+
+#bulk-timer-count {
+    font-size: 24px;
+    color: var(--warning-color);
+}
+
+#bulk-sms-code {
+    letter-spacing: 3px;
+}
+
+#bulk-sms-progress-text {
+    font-size: 14px;
+}
+
+.bulk-result-success {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.bulk-result-error {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+/* -
+-- Mail Gönderme Sistemi Stilleri --- */
+#smtp-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 24px;
+}
+
+.email-result-item {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.email-result-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 3px solid var(--success-color);
+}
+
+.email-result-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 3px solid var(--danger-color);
+}
+
+#email-progress-bar {
+    position: relative;
+    overflow: visible;
+}
+
+#email-progress-fill {
+    transition: width 0.5s ease-in-out;
+}
+
+.smtp-info-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+.smtp-info-box h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.smtp-info-box ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.smtp-info-box li {
+    margin: 5px 0;
+}

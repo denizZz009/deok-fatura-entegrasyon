@@ -1,0 +1,136 @@
+═══════════════════════════════════════════════════════════════
+  E-ARŞIV FATURA YÖNETİM SİSTEMİ
+  PORTABLE SÜRÜM v1.0
+═══════════════════════════════════════════════════════════════
+
+🚀 HIZLI BAŞLANGIÇ (3 ADIM):
+
+   1️⃣  ZIP dosyasını istediğiniz klasöre çıkarın
+   2️⃣  BASLA.bat dosyasına çift tıklayın
+   3️⃣  Tarayıcıda açılan sayfada GİB bilgilerinizle giriş yapın
+
+───────────────────────────────────────────────────────────────
+
+📋 İLK KULLANIM İÇİN:
+
+   Eğer uygulama ilk kez açılmıyorsa:
+   
+   → MENU.bat dosyasını açın
+   → "Sistem Kontrolü" seçeneğini seçin
+   → Eksik bileşenleri kontrol edin
+   
+   Veya:
+   
+   → portable-setup.bat dosyasını çalıştırın
+   → Kurulumun tamamlanmasını bekleyin (2-5 dakika)
+   → BASLA.bat ile tekrar deneyin
+
+───────────────────────────────────────────────────────────────
+
+✨ ÖZELLİKLER:
+
+   ✓ Fatura oluşturma, düzenleme, silme
+   ✓ Excel ile toplu fatura yükleme
+   ✓ SMS ile tek/toplu onaylama
+   ✓ PDF eki ile otomatik mail gönderimi
+   ✓ Excel formatında raporlama
+   ✓ Portable - kurulum gerektirmez
+   ✓ USB'den çalışır
+
+───────────────────────────────────────────────────────────────
+
+📖 YARDIM VE DOKÜMANTASYON:
+
+   📄 KULLANICI_KILAVUZU.md      - Basit kullanım kılavuzu
+   📄 help.html                  - Detaylı yardım sayfası
+   📄 MENU.bat                   - Ana menü (tüm seçenekler)
+   📄 MAIL_SISTEMI_KULLANIM.md   - Mail sistemi rehberi
+   📄 PORTABLE_HAZIRLAMA_REHBERI.md - Teknik detaylar
+
+───────────────────────────────────────────────────────────────
+
+⚙️ SİSTEM GEREKSİNİMLERİ:
+
+   • Windows 10/11 (64-bit)
+   • 4GB RAM (önerilen)
+   • 500MB disk alanı
+   • İnternet bağlantısı (sadece GİB için)
+
+───────────────────────────────────────────────────────────────
+
+🔧 SORUN GİDERME:
+
+   ❌ "PHP bulunamadı" hatası:
+      → portable-setup.bat çalıştırın
+      
+   ❌ "Port kullanımda" hatası:
+      → BASLA.bat otomatik alternatif port deneyecek
+      
+   ❌ PDF oluşturulmuyor:
+      → portable-setup.bat tekrar çalıştırın
+      
+   ❌ Mail gönderilmiyor:
+      → SMTP ayarlarını kontrol edin
+      → "Bağlantıyı Test Et" butonunu kullanın
+
+───────────────────────────────────────────────────────────────
+
+🎯 KULLANIM SENARYOLARI:
+
+   1. TEK FATURA:
+      • "Yeni Fatura Oluştur" butonuna tıkla
+      • Formu doldur
+      • "Taslak Oluştur" butonuna tıkla
+      • SMS ile onayla
+      
+   2. TOPLU FATURA:
+      • "Toplu Fatura Yükle" butonuna tıkla
+      • Excel şablonunu indir ve doldur
+      • Yükle ve oluştur
+      • Toplu SMS ile onayla
+      
+   3. MAİL GÖNDERİMİ:
+      • SMTP ayarlarını yap (bir kez)
+      • Faturaları seç
+      • "Seçilenlere Mail Gönder" butonuna tıkla
+      
+   4. RAPORLAMA:
+      • "Rapor Oluştur" butonuna tıkla
+      • Tarih aralığını seç
+      • Excel raporu indir
+
+───────────────────────────────────────────────────────────────
+
+⚠️ ÖNEMLİ NOTLAR:
+
+   • Tüm veriler yerel bilgisayarınızda saklanır
+   • GİB şifreniz güvenli şekilde session'da tutulur
+   • İnternet sadece GİB bağlantısı için gereklidir
+   • Bu pencereyi kapatmayın (uygulama çalışırken)
+
+───────────────────────────────────────────────────────────────
+
+📞 DESTEK:
+
+   Sorun yaşarsanız:
+   
+   1. help.html dosyasını açın
+   2. app.log dosyasını kontrol edin
+   3. MENU.bat → Sistem Kontrolü
+
+───────────────────────────────────────────────────────────────
+
+🙏 TEŞEKKÜRLER:
+
+   Bu uygulamayı kullandığınız için teşekkür ederiz!
+   
+   Geliştirici: E-Arşiv Fatura Sistemi Ekibi
+   Versiyon: 1.0 Portable
+   Platform: Windows 10/11 (64-bit)
+   Tarih: 2025
+
+═══════════════════════════════════════════════════════════════
+
+           BAŞARILAR DİLERİZ! 🚀
+
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,23 @@
+1. ZIP'i çıkar
+2. BASLA.bat'a çift tıkla
+3. Tarayıcıda açılan sayfada GİB bilgilerinle giriş yap
+4. Kullan!
+
+Eğer çalışmazsa:
+1. MENU.bat'ı aç
+2. "Sistem Kontrolü" seçeneğini seç
+3. Eksik bileşenleri kontrol et
+
+Kullanım Senaryoları
+Senaryo 1: Otomatik Kurulum (Önerilen)
+1. otomatik-indir.bat      # PHP ve Node.js indir
+2. portable-setup.bat      # Paketleri yükle
+3. BASLA.bat              # Başlat!
+
+Senaryo 2: Hazır Paket
+1. ZIP'i çıkar (tüm bileşenler dahil)
+2. BASLA.bat              # Başlat!
+
+Senaryo 3: Kullanıcı Dostu Menü
+1. MENU.bat               # Ana menüyü aç
+2. İstediğin seçeneği seç

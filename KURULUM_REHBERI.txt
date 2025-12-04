@@ -1,0 +1,269 @@
+═══════════════════════════════════════════════════════════════════
+  E-FATURA YÖNETİM SİSTEMİ - KURULUM REHBERİ (Windows)
+═══════════════════════════════════════════════════════════════════
+
+📋 GEREKLİ YAZILIMLAR
+═══════════════════════════════════════════════════════════════════
+
+1. PHP 7.4 veya üzeri
+   İndirme: https://windows.php.net/download/
+   Önerilen: PHP 8.1 (Thread Safe)
+
+2. Composer (PHP Paket Yöneticisi)
+   İndirme: https://getcomposer.org/download/
+   
+3. Node.js 18 veya üzeri (PDF oluşturma için)
+   İndirme: https://nodejs.org/
+   Önerilen: LTS versiyonu
+
+4. Git (Opsiyonel - kod indirmek için)
+   İndirme: https://git-scm.com/download/win
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 1: PHP KURULUMU
+═══════════════════════════════════════════════════════════════════
+
+1. PHP'yi indirin ve C:\php klasörüne çıkarın
+
+2. php.ini dosyasını düzenleyin:
+   - C:\php\php.ini-development dosyasını kopyalayın
+   - php.ini olarak yeniden adlandırın
+   
+3. php.ini içinde şu satırları bulup ; işaretini kaldırın:
+   
+   extension=curl
+   extension=fileinfo
+   extension=gd
+   extension=mbstring
+   extension=mysqli
+   extension=openssl
+   extension=pdo_mysql
+   extension=zip
+
+4. PHP'yi PATH'e ekleyin:
+   - Windows Arama: "Ortam Değişkenleri"
+   - "Sistem Ortam Değişkenlerini Düzenle"
+   - "Ortam Değişkenleri" butonuna tıklayın
+   - "Path" seçin ve "Düzenle"
+   - "Yeni" tıklayın ve "C:\php" ekleyin
+   - Tamam'a tıklayın
+
+5. Test edin (CMD'de):
+   php -v
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 2: COMPOSER KURULUMU
+═══════════════════════════════════════════════════════════════════
+
+1. Composer-Setup.exe'yi indirin ve çalıştırın
+
+2. Kurulum sırasında PHP yolunu seçin: C:\php\php.exe
+
+3. Test edin (CMD'de):
+   composer --version
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 3: NODE.JS KURULUMU
+═══════════════════════════════════════════════════════════════════
+
+1. Node.js LTS versiyonunu indirin ve kurun
+
+2. Kurulum sırasında "Automatically install necessary tools" seçeneğini işaretleyin
+
+3. Test edin (CMD'de):
+   node --version
+   npm --version
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 4: PROJE KURULUMU
+═══════════════════════════════════════════════════════════════════
+
+1. Proje klasörüne gidin (CMD'de):
+   cd C:\Users\KULLANICI_ADI\Downloads\IptalHızlandırılmısFİNAL0210
+
+2. PHP bağımlılıklarını yükleyin:
+   composer install
+
+3. Node.js bağımlılıklarını yükleyin (PDF için):
+   cd html2pdf
+   npm install
+   npx puppeteer browsers install chrome
+   cd ..
+
+4. Backend bağımlılıklarını yükleyin (eğer backend/composer.json varsa):
+   cd backend
+   composer install
+   cd ..
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 5: SUNUCUYU BAŞLATMA
+═══════════════════════════════════════════════════════════════════
+
+1. Proje klasöründe PHP sunucusunu başlatın:
+   php -S localhost:8000
+
+2. Tarayıcıda açın:
+   http://localhost:8000
+
+3. Giriş yapın:
+   - GIB kullanıcı kodunuz
+   - GIB şifreniz
+
+
+═══════════════════════════════════════════════════════════════════
+  ADIM 6: SMTP AYARLARI (Mail Göndermek İçin)
+═══════════════════════════════════════════════════════════════════
+
+1. Sistemde "SMTP Ayarları" butonuna tıklayın
+
+2. Mail sunucu bilgilerinizi girin:
+
+   OUTLOOK/OFFICE365:
+   - SMTP Sunucu: smtp.office365.com
+   - Port: 587
+   - Şifreleme: TLS
+   - Kullanıcı Adı: email@domain.com
+   - Şifre: mail şifreniz
+
+   GMAIL:
+   - SMTP Sunucu: smtp.gmail.com
+   - Port: 587
+   - Şifreleme: TLS
+   - Kullanıcı Adı: email@gmail.com
+   - Şifre: Uygulama Şifresi (2FA gerekli)
+   
+   Gmail için Uygulama Şifresi oluşturma:
+   https://myaccount.google.com/apppasswords
+
+3. "Bağlantıyı Test Et" ile kontrol edin
+
+4. "Ayarları Kaydet" butonuna tıklayın
+
+
+═══════════════════════════════════════════════════════════════════
+  SORUN GİDERME
+═══════════════════════════════════════════════════════════════════
+
+❌ "php: command not found"
+   → PHP'yi PATH'e ekleyin (Adım 1.4)
+
+❌ "composer: command not found"
+   → Composer'ı yeniden kurun (Adım 2)
+
+❌ "node: command not found"
+   → Node.js'i yeniden kurun (Adım 3)
+
+❌ "Class 'PHPMailer' not found"
+   → composer install çalıştırın
+
+❌ "Module 'puppeteer' not found"
+   → html2pdf klasöründe npm install çalıştırın
+
+❌ "Could not find Chrome"
+   → html2pdf klasöründe şunu çalıştırın:
+   → npx puppeteer browsers install chrome
+
+❌ PDF oluşturulmuyor
+   → html2pdf/node_modules klasörü var mı kontrol edin
+   → npm install tekrar çalıştırın
+   → Chrome yüklü mü kontrol edin: npx puppeteer browsers install chrome
+
+❌ Mail gönderilmiyor
+   → SMTP ayarlarını kontrol edin
+   → Gmail için Uygulama Şifresi kullanın
+   → "Bağlantıyı Test Et" ile test edin
+
+❌ Port 8000 kullanımda
+   → Farklı port kullanın: php -S localhost:8080
+
+
+═══════════════════════════════════════════════════════════════════
+  HIZLI BAŞLATMA KOMUTLARI (Kopyala-Yapıştır)
+═══════════════════════════════════════════════════════════════════
+
+# Proje klasörüne git
+cd C:\Users\KULLANICI_ADI\Downloads\IptalHızlandırılmısFİNAL0210
+
+# Bağımlılıkları yükle (ilk kurulumda)
+composer install
+cd html2pdf && npm install && npx puppeteer browsers install chrome && cd ..
+
+# Sunucuyu başlat
+php -S localhost:8000
+
+# Tarayıcıda aç
+start http://localhost:8000
+
+
+═══════════════════════════════════════════════════════════════════
+  KLASÖR YAPISI
+═══════════════════════════════════════════════════════════════════
+
+IptalHızlandırılmısFİNAL0210/
+├── backend/                 # Backend PHP dosyaları
+│   ├── index.php           # Ana API endpoint
+│   ├── mail_functions.php  # Mail fonksiyonları
+│   ├── mail_templates.php  # Mail şablonları
+│   └── vendor/             # PHP bağımlılıkları (composer install)
+├── html2pdf/               # PDF oluşturma sistemi
+│   ├── convert-to-pdf.js   # Puppeteer script
+│   ├── converter-function.php
+│   └── node_modules/       # Node.js bağımlılıkları (npm install)
+├── vendor/                 # Ana PHP bağımlılıkları
+├── temp_invoices/          # Geçici fatura dosyaları
+├── index.html              # Ana sayfa
+├── script.js               # Ana JavaScript
+├── mail_script.js          # Mail JavaScript
+├── style.css               # Stil dosyası
+├── help.html               # Yardım sayfası
+├── composer.json           # PHP bağımlılık listesi
+└── .htaccess              # Apache ayarları
+
+
+═══════════════════════════════════════════════════════════════════
+  ÖNEMLİ NOTLAR
+═══════════════════════════════════════════════════════════════════
+
+⚠️  GÜVENLİK:
+   - Canlı sunucuda .env dosyası kullanın
+   - Şifreleri kodda saklamayın
+   - HTTPS kullanın
+
+⚠️  PERFORMANS:
+   - PDF oluşturma ~2-3 saniye sürer
+   - Toplu mail gönderiminde her fatura ~5-7 saniye
+   - Çok fazla fatura için batch işleme kullanın
+
+⚠️  HOSTING:
+   - Shared hosting'de Puppeteer çalışmayabilir
+   - VPS veya dedicated sunucu önerilir
+   - Alternatif: Üçüncü parti PDF API kullanın
+
+⚠️  YEDEKLEME:
+   - Düzenli olarak veritabanı yedeği alın
+   - SMTP ayarlarını JSON olarak dışa aktarın
+   - Önemli dosyaları yedekleyin
+
+
+═══════════════════════════════════════════════════════════════════
+  DESTEK VE YARDIM
+═══════════════════════════════════════════════════════════════════
+
+📚 Yardım Sayfası: http://localhost:8000/help.html
+📧 Mail Sistemi Kullanımı: MAIL_SISTEMI_KULLANIM.md
+📋 Mail Şablonları: MAIL_SABLONLARI_KULLANIM.md
+
+Sorun yaşarsanız:
+1. Konsol hatalarını kontrol edin (F12)
+2. PHP error log'larını kontrol edin
+3. stderr.log dosyasını kontrol edin
+
+
+═══════════════════════════════════════════════════════════════════
+  BAŞARILAR! 🚀
+═══════════════════════════════════════════════════════════════════

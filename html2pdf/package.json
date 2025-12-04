@@ -1,0 +1,14 @@
+{
+  "name": "pdf-converter",
+  "version": "1.0.0",
+  "description": "HTML to PDF converter using Puppeteer",
+  "main": "convert-to-pdf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

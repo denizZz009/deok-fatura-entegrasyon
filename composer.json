@@ -1,0 +1,15 @@
+{
+    "name": "efatura/mail-system",
+    "description": "E-Fatura Mail Gönderme Sistemi",
+    "require": {
+        "php": ">=7.4",
+        "phpmailer/phpmailer": "^6.8",
+        "dompdf/dompdf": "^2.0",
+        "ilovepdf/ilovepdf-php": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "EFatura\\": "backend/"
+        }
+    }
+}

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Arşiv Fatura PDF Dönüştürücü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-section:hover {
+            border-color: #764ba2;
+            background: #f8f9ff;
+        }
+
+        .upload-section.drag-over {
+            background: #e8ebff;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .convert-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .convert-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.3);
+        }
+
+        .convert-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .status-box.show {
+            display: block;
+        }
+
+        .status-box.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .status-box.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .status-box.processing {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .file-info {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .code-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .code-section h3 {
+            color: #48bb78;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #48bb78;
+        }
+
+        .tab-btn:hover {
+            background: #2d3748;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📄 E-Arşiv Fatura PDF Dönüştürücü</h1>
+            <p>HTML faturalarınızı kolayca PDF'e dönüştürün - Saf HTML/JS/PHP</p>
+        </div>
+
+        <div class="content">
+            <div class="upload-section" id="uploadSection">
+                <svg class="upload-icon" fill="none" stroke="#667eea" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <h2>HTML Dosyasını Sürükleyin veya Yükleyin</h2>
+                <p style="color: #666; margin: 15px 0;">E-Arşiv fatura HTML dosyanızı seçin</p>
+                <input type="file" id="fileInput" class="file-input" accept=".html,.htm">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Dosya Seç
+                </button>
+            </div>
+
+            <div class="file-info" id="fileInfo">
+                <h3>✅ Yüklenen Dosya:</h3>
+                <p id="fileName"></p>
+                <p id="fileSize"></p>
+            </div>
+
+            <button class="convert-btn" id="convertBtn" disabled>
+                PDF'e Dönüştür
+            </button>
+
+            <div class="status-box" id="statusBox"></div>
+
+            <div style="margin-top: 40px;">
+                <h2 style="color: #667eea; margin-bottom: 20px;">📚 Kod Dosyaları</h2>
+                
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showTab('php')">convert.php</button>
+                    <button class="tab-btn" onclick="showTab('node')">convert-to-pdf.js</button>
+                    <button class="tab-btn" onclick="showTab('install')">Kurulum</button>
+                </div>
+
+                <div id="php-tab" class="tab-content active">
+                    <div class="code-section">
+                        <h3>🔧 convert.php</h3>
+                        <pre>&lt;?php
+// E-Arşiv HTML'i PDF'e çevirme
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $htmlContent = $_POST['html'] ?? '';
+    
+    if (empty($htmlContent)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'HTML içeriği boş']);
+        exit;
+    }
+    
+    // Geçici dosyalar oluştur
+    $tempHtml = tempnam(sys_get_temp_dir(), 'fatura_') . '.html';
+    file_put_contents($tempHtml, $htmlContent);
+    
+    $pdfFile = tempnam(sys_get_temp_dir(), 'pdf_') . '.pdf';
+    
+    // Node.js script'ini çalıştır
+    $nodeScript = __DIR__ . '/convert-to-pdf.js';
+    $command = "node " . escapeshellarg($nodeScript) . " " . 
+               escapeshellarg($tempHtml) . " " . 
+               escapeshellarg($pdfFile) . " 2>&1";
+    
+    exec($command, $output, $returnCode);
+    
+    if ($returnCode === 0 && file_exists($pdfFile)) {
+        // Başarılı
+        $pdfContent = base64_encode(file_get_contents($pdfFile));
+        
+        unlink($tempHtml);
+        unlink($pdfFile);
+        
+        echo json_encode([
+            'success' => true,
+            'pdf' => $pdfContent,
+            'filename' => 'fatura_' . date('Y-m-d_H-i-s') . '.pdf'
+        ]);
+    } else {
+        // Hata
+        unlink($tempHtml);
+        if (file_exists($pdfFile)) unlink($pdfFile);
+        
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'PDF oluşturulamadı',
+            'details' => implode("\n", $output),
+            'code' => $returnCode
+        ]);
+    }
+}
+?&gt;</pre>
+                    </div>
+                </div>
+
+                <div id="node-tab" class="tab-content">
+                    <div class="code-section">
+                        <h3>🔧 convert-to-pdf.js</h3>
+                        <pre>// Node.js Puppeteer ile PDF dönüştürme
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+
+async function convertToPdf(htmlPath, pdfPath) {
+    let browser;
+    
+    try {
+        browser = await puppeteer.launch({
+            headless: 'new',
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage'
+            ]
+        });
+        
+        const page = await browser.newPage();
+        
+        // HTML'i yükle
+        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+        await page.setContent(htmlContent, {
+            waitUntil: ['networkidle0', 'domcontentloaded'],
+            timeout: 30000
+        });
+        
+        // QR kod varsa bekle
+        try {
+            await page.waitForSelector('#qrcode canvas', { 
+                timeout: 5000 
+            });
+            await page.waitForTimeout(1000);
+        } catch (e) {
+            // QR kod yok, devam et
+        }
+        
+        // PDF oluştur
+        await page.pdf({
+            path: pdfPath,
+            format: 'A4',
+            printBackground: true,
+            margin: {
+                top: '15mm',
+                right: '10mm',
+                bottom: '15mm',
+                left: '10mm'
+            }
+        });
+        
+        console.log('PDF oluşturuldu: ' + pdfPath);
+        
+    } catch (error) {
+        console.error('HATA:', error.message);
+        throw error;
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
+    }
+}
+
+// Komut satırı argümanları
+const args = process.argv.slice(2);
+if (args.length !== 2) {
+    console.error('Kullanım: node convert-to-pdf.js &lt;html-path&gt; &lt;pdf-path&gt;');
+    process.exit(1);
+}
+
+convertToPdf(args[0], args[1])
+    .then(() => process.exit(0))
+    .catch(err => {
+        console.error(err);
+        process.exit(1);
+    });</pre>
+                    </div>
+                </div>
+
+                <div id="install-tab" class="tab-content">
+                    <div class="code-section">
+                        <h3>📦 Kurulum Adımları</h3>
+                        <pre><strong>1. Node.js Kurulumu:</strong>
+   - https://nodejs.org adresinden indirin ve kurun
+   - Terminalde kontrol edin: node --version
+
+<strong>2. Proje Klasörü Oluşturun:</strong>
+   mkdir earsiv-pdf-converter
+   cd earsiv-pdf-converter
+
+<strong>3. Puppeteer'ı Kurun:</strong>
+   npm init -y
+   npm install puppeteer
+
+<strong>4. Dosyaları Yerleştirin:</strong>
+   - index.html (bu sayfanın kaynak kodu)
+   - convert.php (soldaki PHP kodu)
+   - convert-to-pdf.js (soldaki Node.js kodu)
+
+<strong>5. Sunucuyu Çalıştırın:</strong>
+   php -S localhost:8000
+
+<strong>6. Tarayıcıda Açın:</strong>
+   http://localhost:8000
+
+<strong>7. Test Edin:</strong>
+   - E-Arşiv HTML dosyanızı yükleyin
+   - "PDF'e Dönüştür" butonuna tıklayın
+   - PDF otomatik indirilecek
+
+<strong>NOTLAR:</strong>
+- Shared hosting'de çalışmaz (Node.js gerekli)
+- VPS veya kendi sunucunuzda çalıştırın
+- Windows'ta komut satırı: cmd veya PowerShell
+- Linux/Mac'te: Terminal
+
+<strong>Hata Ayıklama:</strong>
+- Node.js kurulu mu? → node --version
+- Puppeteer kurulu mu? → ls node_modules/puppeteer
+- PHP çalışıyor mu? → php -v
+- Port 8000 açık mı? → netstat -an | grep 8000</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentHtmlContent = '';
+        
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const convertBtn = document.getElementById('convertBtn');
+        const statusBox = document.getElementById('statusBox');
+
+        // Dosya seçimi
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        // Sürükle bırak
+        uploadSection.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadSection.classList.add('drag-over');
+        });
+
+        uploadSection.addEventListener('dragleave', function() {
+            uploadSection.classList.remove('drag-over');
+        });
+
+        uploadSection.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('drag-over');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && (file.name.endsWith('.html') || file.name.endsWith('.htm'))) {
+                handleFile(file);
+            } else {
+                showStatus('error', 'Lütfen sadece HTML dosyası yükleyin!');
+            }
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                currentHtmlContent = e.target.result;
+                
+                fileName.textContent = 'Dosya: ' + file.name;
+                fileSize.textContent = 'Boyut: ' + (file.size / 1024).toFixed(2) + ' KB';
+                
+                fileInfo.classList.add('show');
+                convertBtn.disabled = false;
+                
+                showStatus('success', '✅ HTML dosyası başarıyla yüklendi!');
+            };
+            
+            reader.onerror = function() {
+                showStatus('error', '❌ Dosya okunamadı!');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        convertBtn.addEventListener('click', async function() {
+            if (!currentHtmlContent) {
+                showStatus('error', 'Lütfen önce bir HTML dosyası yükleyin!');
+                return;
+            }
+
+            showStatus('processing', '⏳ PDF oluşturuluyor, lütfen bekleyin...');
+            statusBox.innerHTML += '<div class="spinner"></div>';
+            convertBtn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('html', currentHtmlContent);
+
+                const response = await fetch('convert.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showStatus('success', '✅ PDF başarıyla oluşturuldu!');
+                    
+                    // PDF'i indir
+                    const pdfBlob = base64ToBlob(result.pdf, 'application/pdf');
+                    const url = URL.createObjectURL(pdfBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = result.filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    statusBox.innerHTML += '<br><br>📥 PDF indiriliyor: <strong>' + result.filename + '</strong>';
+                } else {
+                    let errorMsg = '❌ Hata: ' + result.error;
+                    if (result.details) {
+                        errorMsg += '<br><br><small>Detay: ' + result.details + '</small>';
+                    }
+                    showStatus('error', errorMsg);
+                }
+            } catch (error) {
+                showStatus('error', '❌ Sunucu hatası: ' + error.message + '<br><br>convert.php dosyasının olduğundan emin olun!');
+            } finally {
+                convertBtn.disabled = false;
+            }
+        });
+
+        function showStatus(type, message) {
+            statusBox.className = 'status-box show ' + type;
+            statusBox.innerHTML = message;
+        }
+
+        function base64ToBlob(base64, mimeType) {
+            const byteCharacters = atob(base64);
+            const byteNumbers = new Array(byteCharacters.length);
+            
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            
+            const byteArray = new Uint8Array(byteNumbers);
+            return new Blob([byteArray], { type: mimeType });
+        }
+
+        function showTab(tabName) {
+            // Tüm tab butonlarını pasif yap
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Seçili tabı aktif yap
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+    </script>
+</body>
+</html>

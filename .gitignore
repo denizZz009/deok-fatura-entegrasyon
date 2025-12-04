@@ -1,0 +1,54 @@
+# Portable klasörü (büyük dosyalar)
+portable/php/
+portable/node/
+portable/composer/
+portable/downloads/
+
+# Vendor klasörleri
+vendor/
+backend/vendor/
+html2pdf/node_modules/
+
+# Geçici dosyalar
+temp_invoices/*.html
+temp_invoices/*.pdf
+*.log
+stderr.log
+
+# Session ve cache
+sessions/
+cache/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup
+*.bak
+*.backup
+*~
+
+# Composer
+composer.lock
+composer.phar
+
+# NPM
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test
+test/
+tests/
+phpunit.xml
+
+# Kullanıcı ayarları (opsiyonel - paylaşmak istemezseniz)
+# backend/downloads/
+# smtp_settings.json

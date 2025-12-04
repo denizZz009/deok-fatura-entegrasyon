@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatura Yonetim</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div id="toast-container"></div>
+    <div class="container">
+        <h1>Fatura Yonetim Paneli</h1>
+
+        <div id="login-section" class="card">
+            <input type="text" id="usercode" placeholder="Kullanıcı Kodu">
+            <input type="password" id="password" placeholder="Şifre">
+            <button id="login-btn" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Giriş Yap</button>
+            <div id="login-message"></div>
+        </div>
+        <div id="panel-section" class="card" style="display:none;">
+            <button id="help-btn" class="btn-info" style="position:absolute; top:20px; left:30px;"><i
+                    class="fas fa-question-circle"></i> Yardım</button>
+            <button id="logout-btn" class="btn-outline" style="position:absolute; top:20px; right:30px;"><i
+                    class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+            <div class="controls-container">
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+                <select id="status-filter">
+                    <option value="">Tüm Durumlar</option>
+                    <option value="Onaylanmış">Onaylanmış</option>
+                    <option value="İptal Edilmiş">İptal Edilmiş</option>
+                    <option value="Taslak">Taslak</option>
+                </select>
+                <input type="text" id="search-box" placeholder="Fatura No veya Alıcı Ara">
+                <button id="filter-invoices-btn" class="btn-primary"><i class="fas fa-filter"></i> Filtrele</button>
+            </div>
+            <div class="controls-container">
+                <button id="list-invoices-btn" class="btn-primary" style="display: none;"><i class="fas fa-list"></i>
+                    Faturaları Listele</button>
+                <button id="create-invoice-btn" class="btn-primary"><i class="fas fa-plus-circle"></i> Yeni Fatura
+                    Oluştur</button>
+                <button id="bulk-upload-btn" class="btn-secondary"><i class="fas fa-file-excel"></i> Toplu Fatura
+                    Yükle</button>
+                <button id="load-amounts-btn" class="btn-info" style="display:none;"><i class="fas fa-dollar-sign"></i> Tutarları Yükle</button>
+                <button id="report-btn" class="btn-secondary"><i class="fas fa-chart-bar"></i> Rapor Oluştur</button>
+            </div>
+
+            <!-- Toplu Yükleme Alanı -->
+            <div id="bulk-upload-section" class="card" style="display:none;">
+                <h3><i class="fas fa-file-excel"></i> Toplu Fatura Yükleme</h3>
+                <p>Excel dosyası ile birden fazla faturayı aynı anda taslak olarak oluşturabilirsiniz.</p>
+
+                <div
+                    style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 10px; margin: 15px 0;">
+                    <strong><i class="fas fa-exclamation-triangle" style="color: #856404;"></i> Yeni
+                        Özellikler:</strong><br>
+                    • Excel şablonuna <strong>Fatura Tarihi</strong> alanı eklendi! Artık her fatura için özel tarih
+                    belirleyebilirsiniz.<br>
+                    • <strong>Otomatik Mükellef Bilgisi:</strong> VKN/TCKN girdiğinizde alıcı bilgileri otomatik olarak
+                    çekilir ve doldurulur!
+                </div>
+
+                <div class="controls-container">
+                    <button id="download-template-btn" class="btn-outline"><i class="fas fa-download"></i> Excel Şablonu
+                        İndir</button>
+                    <input type="file" id="excel-file-input" accept=".xlsx,.xls" style="display: none;">
+                    <button id="select-excel-btn" class="btn-primary"><i class="fas fa-file-upload"></i> Excel Dosyası
+                        Seç</button>
+                </div>
+
+                <div id="excel-preview" style="display:none; margin-top: 20px;">
+                    <h4>Dosya Önizlemesi:</h4>
+                    <div id="excel-data-preview"></div>
+                    <div class="controls-container" style="margin-top: 15px;">
+                        <button id="process-excel-btn" class="btn-primary"><i class="fas fa-cogs"></i> Faturaları
+                            Oluştur</button>
+                        <button id="cancel-excel-btn" class="btn-outline"><i class="fas fa-times"></i> İptal</button>
+                    </div>
+                </div>
+
+                <div id="bulk-progress" style="display:none; margin-top: 20px;">
+                    <h4>İşlem Durumu:</h4>
+                    <div id="bulk-progress-bar" style="background: #f0f0f0; border-radius: 5px; overflow: hidden;">
+                        <div id="bulk-progress-fill"
+                            style="height: 20px; background: var(--primary-color); width: 0%; transition: width 0.3s;">
+                        </div>
+                    </div>
+                    <div id="bulk-progress-text" style="margin-top: 10px; text-align: center;">Hazırlanıyor...</div>
+                </div>
+            </div>
+            <div id="invoice-list"></div>
+            <div class="controls-container">
+                <button id="bulk-download-btn" class="btn-primary" style="display:none;"><i
+                        class="fas fa-file-archive"></i> Tümünü İndir (ZIP)</button>
+                <button id="download-selected-btn" class="btn-primary" style="display:none;"><i
+                        class="fas fa-download"></i> Seçilenleri İndir (ZIP)</button>
+                <button id="bulk-sms-approve-btn" class="btn-info" style="display:none;"><i
+                        class="fas fa-signature"></i> Seçilenleri Toplu Onayla (SMS)</button>
+                <button id="send-email-btn" class="btn-primary" style="display:none;"><i
+                        class="fas fa-envelope"></i> Seçilenlere Mail Gönder</button>
+                <button id="smtp-settings-btn" class="btn-secondary"><i
+                        class="fas fa-cog"></i> SMTP Ayarları</button>
+            </div>
+            <div id="progress"></div>
+        </div>
+
+        <!-- Invoice Creation Modal -->
+        <div id="invoice-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Yeni Fatura Oluştur</h2>
+                <form id="invoice-form">
+
+                    <!-- Fatura Bilgileri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">-</button> Fatura Temel Bilgileri</h3>
+                        <div class="form-grid">
+                            <input type="date" id="inv-date" placeholder="Fatura Tarihi">
+                            <input type="time" id="inv-time" placeholder="Fatura Saati">
+                            <select id="inv-currency" required>
+                                <option value="TRY">TRY</option>
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="AUD">AUD</option>
+                                <option value="DKK">DKK</option>
+                                <option value="GBP">GBP</option>
+                                <option value="CHF">CHF</option>
+                                <option value="SEK">SEK</option>
+                                <option value="CAD">CAD</option>
+                                <option value="KWD">KWD</option>
+                                <option value="NOK">NOK</option>
+                                <option value="SAR">SAR</option>
+                                <option value="JPY">JPY</option>
+                            </select>
+                            <input type="number" id="inv-exchange-rate" placeholder="Döviz Kuru" step="any">
+                            <select id="inv-type" required>
+                                <option value="Satis">Satış</option>
+                                <option value="Iade">İade</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Alıcı Bilgileri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">-</button> Alıcı Bilgileri</h3>
+                        <div class="form-grid">
+                            <input type="text" id="recipient-vkn" placeholder="VKN/TCKN (Zorunlu)" required
+                                class="full-width required-field">
+                            <button type="button" id="get-recipient-info-btn" class="btn-outline full-width"><i
+                                    class="fas fa-search"></i> Mükellef Bilgilerini Getir</button>
+                            <input type="text" id="recipient-unvan" placeholder="Unvan">
+                            <input type="text" id="recipient-adi" placeholder="Adı (Zorunlu)" required
+                                class="required-field">
+                            <input type="text" id="recipient-soyadi" placeholder="Soyadı (Zorunlu)" required
+                                class="required-field">
+                            <input type="text" id="recipient-vergi-dairesi" placeholder="Vergi Dairesi">
+                            <input type="text" id="recipient-address" placeholder="Adres (Cadde, Sokak vb.)"
+                                class="full-width">
+                            <input type="text" id="recipient-bina-adi" placeholder="Bina Adı">
+                            <input type="text" id="recipient-bina-no" placeholder="Bina No">
+                            <input type="text" id="recipient-kapi-no" placeholder="Kapı No">
+                            <input type="text" id="recipient-kasaba-koy" placeholder="Kasaba/Köy">
+                            <input type="text" id="recipient-mahalle" placeholder="Mahalle/Semt/İlçe">
+                            <input type="text" id="recipient-sehir" placeholder="Şehir">
+                            <input type="text" id="recipient-posta-kodu" placeholder="Posta Kodu">
+                            <input type="text" id="recipient-ulke" placeholder="Ülke (Zorunlu)" value="Türkiye" required
+                                class="required-field">
+                        </div>
+                    </div>
+
+                    <!-- İletişim Bilgileri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">-</button> İletişim Bilgileri (İsteğe Bağlı)
+                        </h3>
+                        <div class="form-grid">
+                            <input type="tel" id="recipient-tel" placeholder="Telefon">
+                            <input type="tel" id="recipient-fax" placeholder="Faks">
+                            <input type="email" id="recipient-email" placeholder="E-posta">
+                        </div>
+                    </div>
+
+                    <!-- Sipariş & İrsaliye Bilgileri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">+</button> Sipariş & İrsaliye Bilgileri (İsteğe
+                            Bağlı)</h3>
+                        <div class="form-grid collapsible collapsed">
+                            <input type="text" id="inv-siparis-numarasi" placeholder="Sipariş Numarası">
+                            <input type="date" id="inv-siparis-tarihi" placeholder="Sipariş Tarihi">
+                            <input type="text" id="inv-irsaliye-numarasi" placeholder="İrsaliye Numarası">
+                            <input type="date" id="inv-irsaliye-tarihi" placeholder="İrsaliye Tarihi">
+                        </div>
+                    </div>
+
+                    <!-- ÖKC Bilgileri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">+</button> ÖKC Fiş Bilgileri (İsteğe Bağlı)
+                        </h3>
+                        <div class="form-grid collapsible collapsed">
+                            <input type="text" id="inv-fis-no" placeholder="Fiş No">
+                            <input type="date" id="inv-fis-tarihi" placeholder="Fiş Tarihi">
+                            <input type="time" id="inv-fis-saati" placeholder="Fiş Saati">
+                            <input type="text" id="inv-fis-tipi" placeholder="Fiş Tipi">
+                            <input type="text" id="inv-z-rapor-no" placeholder="Z Rapor No">
+                            <input type="text" id="inv-okc-seri-no" placeholder="OKC Seri No">
+                        </div>
+                    </div>
+
+                    <!-- Fatura Kalemleri -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">-</button> Fatura Kalemleri</h3>
+                        <div id="invoice-items">
+                            <!-- Item rows will be added here -->
+                        </div>
+                        <button type="button" id="add-item-btn" class="btn-outline"><i class="fas fa-plus"></i> Kalem
+                            Ekle</button>
+                    </div>
+
+                    <!-- Notlar -->
+                    <div class="form-section">
+                        <h3><button type="button" class="toggle-section">-</button> Notlar</h3>
+                        <textarea id="inv-notes" placeholder="Fatura notları..."></textarea>
+                    </div>
+
+                    <!-- Toplamlar -->
+                    <div class="form-section">
+                        <h3>Toplamlar</h3>
+                        <p>Ara Toplam: <span id="subtotal">0.00</span></p>
+                        <p>Toplam KDV: <span id="total-tax">0.00</span></p>
+                        <p>Genel Toplam: <span id="grand-total">0.00</span></p>
+                    </div>
+
+                    <button type="submit" id="submit-invoice-btn" class="btn-primary full-width"><i
+                            class="fas fa-file-invoice"></i> Taslak Oluştur</button>
+                    <div class="controls-container" style="margin-top: 15px;">
+                        <button type="button" id="export-settings-btn" class="btn-secondary"><i
+                                class="fas fa-file-export"></i> Ayarları Dışa Aktar</button>
+                        <input type="file" id="import-settings-input" accept=".json" style="display: none;">
+                        <button type="button" id="import-settings-btn" class="btn-secondary"><i
+                                class="fas fa-file-import"></i> Ayarları İçe Aktar</button>
+                    </div>
+                </form>
+                <div id="invoice-message"></div>
+            </div>
+        </div>
+
+        <!-- SMS Signing Modal -->
+        <div id="sms-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn close-sms-btn">&times;</span>
+                <h2>Fatura İmzalama (SMS Onay)</h2>
+                <p>Lütfen GİB tarafından kayıtlı cep telefonunuza gönderilen 6 haneli SMS şifresini girin.</p>
+                <p class="subtitle" style="color:var(--danger-color);"><b>Uyarı:</b> Bu işlem mali olarak bağlayıcıdır
+                    ve geri alınamaz.</p>
+                <form id="sms-form">
+                    <input type="hidden" id="sms-uuid">
+                    <input type="hidden" id="sms-oid">
+                    <input type="text" id="sms-code" placeholder="SMS Şifresi" required maxlength="6">
+                    <button type="submit" id="submit-sms-btn" class="btn-primary"><i class="fas fa-signature"></i>
+                        İmzala ve Onayla</button>
+                </form>
+                <div id="sms-message"></div>
+            </div>
+        </div>
+
+        <!-- Bulk SMS Signing Modal -->
+        <div id="bulk-sms-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn close-bulk-sms-btn">&times;</span>
+                <h2><i class="fas fa-signature"></i> Toplu Fatura İmzalama (SMS Onay)</h2>
+                <div id="bulk-sms-info" style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <p><strong><i class="fas fa-info-circle"></i> Toplu Onay İşlemi</strong></p>
+                    <p>Seçilen <span id="selected-invoice-count">0</span> adet fatura tek SMS ile onaylanacaktır.</p>
+                    <p style="color: var(--danger-color); font-weight: bold;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Bu işlem mali olarak bağlayıcıdır ve geri alınamaz!
+                    </p>
+                </div>
+                
+                <div id="bulk-sms-step-1" style="display: block;">
+                    <h3>1. Adım - SMS Gönderme</h3>
+                    <p>GİB'e kayıtlı cep telefonunuza SMS şifresi gönderilecektir.</p>
+                    <div id="bulk-selected-invoices" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                        <!-- Seçilen faturalar burada listelenecek -->
+                    </div>
+                    <button id="bulk-send-sms-btn" class="btn-primary full-width">
+                        <i class="fas fa-sms"></i> SMS Şifresi Gönder
+                    </button>
+                </div>
+                
+                <div id="bulk-sms-step-2" style="display: none;">
+                    <h3>2. Adım - SMS Onay</h3>
+                    <p>Lütfen cep telefonunuza gönderilen 6 haneli SMS şifresini girin.</p>
+                    <div id="bulk-sms-timer" style="text-align: center; font-size: 18px; font-weight: bold; color: var(--primary-color); margin: 15px 0;">
+                        Kalan süre: <span id="bulk-timer-count">180</span> saniye
+                    </div>
+                    <form id="bulk-sms-form">
+                        <input type="hidden" id="bulk-sms-oid">
+                        <input type="text" id="bulk-sms-code" placeholder="SMS Şifresi" required maxlength="6" style="text-align: center; font-size: 18px; font-weight: bold;">
+                        <button type="submit" id="submit-bulk-sms-btn" class="btn-primary full-width">
+                            <i class="fas fa-signature"></i> Seçilen Faturaları Toplu Onayla
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="bulk-sms-message"></div>
+                
+                <div id="bulk-sms-progress" style="display: none; margin-top: 20px;">
+                    <h4>İşlem Durumu:</h4>
+                    <div id="bulk-sms-progress-bar" style="background: #f0f0f0; border-radius: 5px; overflow: hidden;">
+                        <div id="bulk-sms-progress-fill" style="height: 20px; background: var(--success-color); width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="bulk-sms-progress-text" style="margin-top: 10px; text-align: center;">Hazırlanıyor...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMTP Settings Modal -->
+        <div id="smtp-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn close-smtp-modal">&times;</span>
+                <h2><i class="fas fa-cog"></i> SMTP Mail Ayarları</h2>
+                <p>Outlook, Gmail veya diğer SMTP sunucularını kullanarak fatura maillerini gönderin.</p>
+                
+                <form id="smtp-form">
+                    <div class="form-section">
+                        <h3>SMTP Sunucu Bilgileri</h3>
+                        <div class="form-grid">
+                            <input type="text" id="smtp-host" placeholder="SMTP Sunucu (örn: smtp.office365.com)" required class="full-width">
+                            <input type="number" id="smtp-port" placeholder="Port (587 veya 465)" value="587" required>
+                            <select id="smtp-encryption" required>
+                                <option value="tls">TLS (Port 587)</option>
+                                <option value="ssl">SSL (Port 465)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Giriş Bilgileri</h3>
+                        <div class="form-grid">
+                            <input type="email" id="smtp-username" placeholder="E-posta Adresi" required class="full-width">
+                            <input type="password" id="smtp-password" placeholder="Şifre veya Uygulama Şifresi" required class="full-width">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Gönderen Bilgileri</h3>
+                        <div class="form-grid">
+                            <input type="email" id="smtp-from-email" placeholder="Gönderen E-posta" required class="full-width">
+                            <input type="text" id="smtp-from-name" placeholder="Gönderen Adı (örn: Firma Adı)" value="E-Fatura Sistemi" required class="full-width">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Mail Şablonu</h3>
+                        <div class="form-grid">
+                            <select id="smtp-template-type" class="full-width">
+                                <option value="default">Profesyonel (Varsayılan)</option>
+                                <option value="modern">Modern (Minimalist)</option>
+                                <option value="classic">Klasik (Resmi)</option>
+                            </select>
+                            <input type="url" id="smtp-logo-url" placeholder="Firma Logo URL'si (https://...)" class="full-width">
+                        </div>
+                        <div class="form-grid" style="margin-top: 10px;">
+                            <textarea id="smtp-custom-message" placeholder="Özel mesaj (isteğe bağlı)&#10;Örnek: Ödeme 7 gün içinde yapılmalıdır." rows="3" class="full-width" style="resize: vertical;"></textarea>
+                        </div>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i> Şablon, logo ve özel mesajınız mail içeriğinde görünecektir.
+                        </p>
+                    </div>
+                    
+                    <div class="controls-container">
+                        <button type="button" id="export-smtp-btn" class="btn-info">
+                            <i class="fas fa-download"></i> Dışa Aktar (JSON)
+                        </button>
+                        <button type="button" id="import-smtp-btn" class="btn-info">
+                            <i class="fas fa-upload"></i> İçe Aktar (JSON)
+                        </button>
+                        <input type="file" id="import-smtp-file" accept=".json" style="display:none;">
+                    </div>
+                    
+                    <div class="controls-container" style="margin-top: 10px;">
+                        <button type="button" id="preview-template-btn" class="btn-secondary">
+                            <i class="fas fa-eye"></i> Şablonu Önizle
+                        </button>
+                        <button type="button" id="test-smtp-btn" class="btn-secondary">
+                            <i class="fas fa-vial"></i> Bağlantıyı Test Et
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Ayarları Kaydet
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="smtp-message"></div>
+                
+                <!-- Örnek SMTP Ayarları -->
+                <div class="form-section" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="margin-top: 0;"><i class="fas fa-lightbulb"></i> Popüler SMTP Ayarları</h4>
+                    <div style="font-size: 0.9em; line-height: 1.8;">
+                        <strong>Outlook/Office365:</strong><br>
+                        • Sunucu: smtp.office365.com<br>
+                        • Port: 587 (TLS)<br><br>
+                        
+                        <strong>Gmail:</strong><br>
+                        • Sunucu: smtp.gmail.com<br>
+                        • Port: 587 (TLS)<br>
+                        • Not: Gmail için "Uygulama Şifresi" kullanın<br><br>
+                        
+                        <strong>Yandex:</strong><br>
+                        • Sunucu: smtp.yandex.com<br>
+                        • Port: 465 (SSL)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Sending Modal -->
+        <div id="email-sending-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn close-email-modal">&times;</span>
+                <h2><i class="fas fa-envelope"></i> Fatura Maili Gönderiliyor</h2>
+                
+                <div id="email-sending-info" style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <p><strong><i class="fas fa-info-circle"></i> Mail Gönderimi</strong></p>
+                    <p>Seçilen <span id="email-invoice-count">0</span> adet faturaya mail gönderilecektir.</p>
+                </div>
+                
+                <div id="email-selected-invoices" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                    <!-- Seçilen faturalar burada listelenecek -->
+                </div>
+                
+                <div id="email-progress" style="margin-top: 20px;">
+                    <h4>İşlem Durumu:</h4>
+                    <div id="email-progress-bar" style="background: #f0f0f0; border-radius: 5px; overflow: hidden;">
+                        <div id="email-progress-fill" style="height: 20px; background: var(--success-color); width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="email-progress-text" style="margin-top: 10px; text-align: center;">Hazırlanıyor...</div>
+                </div>
+                
+                <div id="email-results" style="display: none; margin-top: 20px; max-height: 300px; overflow-y: auto;">
+                    <h4>Gönderim Sonuçları:</h4>
+                    <div id="email-results-list"></div>
+                </div>
+                
+                <div id="email-message"></div>
+            </div>
+        </div>
+
+        <!-- Report Modal -->
+        <div id="report-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn close-report-btn">&times;</span>
+                <h2><i class="fas fa-chart-bar"></i> Fatura Raporu Oluştur</h2>
+                <p>Belirtilen tarih aralığında kesilen onaylanmış faturaların raporunu oluşturun.</p>
+                
+                <form id="report-form">
+                    <div class="form-section">
+                        <h3>Tarih Aralığı</h3>
+                        <div class="form-grid">
+                            <input type="date" id="report-start-date" required>
+                            <input type="date" id="report-end-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Rapor Özeti</h3>
+                        <div id="report-summary" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                            <p><strong>Rapor Kapsamı:</strong></p>
+                            <ul>
+                                <li>Onaylanmış faturalar dahil edilir</li>
+                                <li>Mal Hizmet Toplam Tutarı ve Vergiler Dahil Toplam Tutar gösterilir</li>
+                                <li>Excel formatında detaylı rapor oluşturulur</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="controls-container">
+                        <button type="submit" id="generate-report-btn" class="btn-primary">
+                            <i class="fas fa-file-excel"></i> Excel Raporu Oluştur
+                        </button>
+                        <button type="button" id="preview-report-btn" class="btn-secondary">
+                            <i class="fas fa-eye"></i> Önizleme
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="report-message"></div>
+                
+                <!-- Rapor Sonuçları -->
+                <div id="report-results" style="display:none; margin-top: 20px;">
+                    <h3>Rapor Sonuçları</h3>
+                    <div id="report-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-invoices">0</div>
+                            <div class="stat-label">Toplam Fatura</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-mal-hizmet">0.00 ₺</div>
+                            <div class="stat-label">Mal Hizmet Toplam</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-vergiler-dahil">0.00 ₺</div>
+                            <div class="stat-label">Vergiler Dahil Toplam</div>
+                        </div>
+                    </div>
+                    
+                    <div id="report-table-container" style="max-height: 400px; overflow-y: auto; margin-top: 15px;">
+                        <table id="report-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th>Fatura No</th>
+                                    <th>Tarih</th>
+                                    <th>Alıcı</th>
+                                    <th>Ürün/Hizmet</th>
+                                    <th>Mal Hizmet Tutarı</th>
+                                    <th>Vergiler Dahil</th>
+                                    <th>KDV Oranı</th>
+                                    <th>Para Birimi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="mail_script.js"></script>
+</body>
+
+</html>

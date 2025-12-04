@@ -1,0 +1,35 @@
+E-Arşiv Fatura Yönetim Sistemi
+Portable Sürüm
+
+Versiyon: 1.0.0
+Tarih: 2025-01-19
+Platform: Windows 10/11 (64-bit)
+
+Değişiklikler:
+- İlk portable sürüm
+- Tek tıkla başlatma
+- Otomatik kurulum
+- PHP 8.1 desteği
+- Node.js 18 desteği
+- Puppeteer PDF oluşturma
+- SMTP mail sistemi
+- Excel toplu yükleme
+- Toplu SMS onaylama
+- Raporlama sistemi
+
+Bileşenler:
+- PHP: 8.1.27
+- Node.js: 18.19.0
+- Composer: Latest
+- mlevent/fatura: ^0.3.0
+- PHPMailer: ^7.0
+- PhpSpreadsheet: ^1.29
+- Puppeteer: Latest
+
+Gereksinimler:
+- Windows 10/11 (64-bit)
+- 4GB RAM
+- 500MB disk alanı
+- İnternet (GİB için)
+
+Lisans: Özel Kullanım

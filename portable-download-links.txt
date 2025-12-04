@@ -1,0 +1,84 @@
+═══════════════════════════════════════════════════════════════
+  E-ARŞIV FATURA SİSTEMİ - PORTABLE İNDİRME LİNKLERİ
+═══════════════════════════════════════════════════════════════
+
+Bu dosya, portable sürüm için gerekli dosyaların indirme linklerini içerir.
+
+───────────────────────────────────────────────────────────────
+1. PHP (Portable) - ZORUNLU
+───────────────────────────────────────────────────────────────
+
+İndirme Sayfası:
+https://windows.php.net/download/
+
+Önerilen Versiyon:
+PHP 8.1.27 (Thread Safe, x64)
+
+Direkt Link (Örnek):
+https://windows.php.net/downloads/releases/php-8.1.27-Win32-vs16-x64.zip
+
+Kurulum:
+1. ZIP dosyasını indir
+2. portable/php/ klasörüne çıkar
+3. Sonuç: portable/php/php.exe olmalı
+
+───────────────────────────────────────────────────────────────
+2. Node.js (Portable) - ZORUNLU
+───────────────────────────────────────────────────────────────
+
+İndirme Sayfası:
+https://nodejs.org/dist/
+
+Önerilen Versiyon:
+Node.js 18.19.0 LTS (x64)
+
+Direkt Link:
+https://nodejs.org/dist/v18.19.0/node-v18.19.0-win-x64.zip
+
+Kurulum:
+1. ZIP dosyasını indir
+2. portable/node/ klasörüne çıkar
+3. Sonuç: portable/node/node.exe olmalı
+
+───────────────────────────────────────────────────────────────
+3. Composer - OTOMATİK
+───────────────────────────────────────────────────────────────
+
+portable-setup.bat çalıştırıldığında otomatik indirilecek.
+
+Manuel indirmek isterseniz:
+https://getcomposer.org/download/
+
+───────────────────────────────────────────────────────────────
+HIZLI İNDİRME (Güncel Linkler)
+───────────────────────────────────────────────────────────────
+
+PHP 8.1 (Thread Safe x64):
+https://windows.php.net/downloads/releases/php-8.1.27-Win32-vs16-x64.zip
+
+Node.js 18 LTS (x64):
+https://nodejs.org/dist/v18.19.0/node-v18.19.0-win-x64.zip
+
+───────────────────────────────────────────────────────────────
+DOSYA BOYUTLARI
+───────────────────────────────────────────────────────────────
+
+PHP ZIP:          ~30 MB
+Node.js ZIP:      ~50 MB
+Toplam İndirme:   ~80 MB
+
+───────────────────────────────────────────────────────────────
+KURULUM SONRASI BOYUT
+───────────────────────────────────────────────────────────────
+
+PHP:              ~30 MB
+Node.js:          ~50 MB
+Composer:         ~2 MB
+PHP Paketleri:    ~20 MB
+Node Paketleri:   ~150 MB
+Puppeteer:        ~150 MB
+Uygulama:         ~5 MB
+─────────────────────────
+TOPLAM:           ~400 MB
+
+═══════════════════════════════════════════════════════════════

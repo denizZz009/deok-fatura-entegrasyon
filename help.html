@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanım Kılavuzu - E-Fatura Yönetim Sistemi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list i {
+            color: #667eea;
+            margin-top: 3px;
+            font-size: 1.1em;
+        }
+        
+        .step-box {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .step-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .tip-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .tip-box i {
+            color: #ffc107;
+            margin-right: 8px;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box i {
+            color: #dc3545;
+            margin-right: 8px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .success-box i {
+            color: #28a745;
+            margin-right: 8px;
+        }
+        
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        
+        .toc {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea;
+        }
+        
+        .toc h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            padding: 8px 0;
+        }
+        
+        .toc a {
+            color: #764ba2;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.close()">
+        <i class="fas fa-times"></i> Kapat
+    </button>
+    
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-book"></i> Kullanım Kılavuzu</h1>
+            <p>E-Fatura Yönetim Sistemi - Tüm Özellikler ve Kullanım</p>
+        </div>
+        
+        <div class="content">
+            <!-- İçindekiler -->
+            <div class="toc">
+                <h3><i class="fas fa-list"></i> İçindekiler</h3>
+                <ul>
+                    <li><a href="#giris">1. Giriş ve Başlangıç</a></li>
+                    <li><a href="#fatura-listeleme">2. Fatura Listeleme ve Filtreleme</a></li>
+                    <li><a href="#fatura-olusturma">3. Fatura Oluşturma</a></li>
+                    <li><a href="#toplu-yukleme">4. Toplu Fatura Yükleme</a></li>
+                    <li><a href="#mail-sistemi">5. E-Posta Gönderme Sistemi</a></li>
+                    <li><a href="#smtp-ayarlari">6. SMTP Ayarları</a></li>
+                    <li><a href="#mail-sablonlari">7. Mail Şablonları</a></li>
+                    <li><a href="#ice-disa-aktarma">8. İçe/Dışa Aktarma</a></li>
+                    <li><a href="#raporlama">9. Raporlama</a></li>
+                    <li><a href="#iptal-islemleri">10. İptal İşlemleri</a></li>
+                </ul>
+            </div>
+            
+            <!-- 1. Giriş -->
+            <div class="section" id="giris">
+                <h2><i class="fas fa-sign-in-alt"></i> 1. Giriş ve Başlangıç</h2>
+                
+                <h3><i class="fas fa-user"></i> Sisteme Giriş</h3>
+                <p>E-Fatura sistemine erişmek için GIB (Gelir İdaresi Başkanlığı) kullanıcı bilgilerinizi kullanın:</p>
+                
+                <div class="step-box">
+                    <strong>Adım 1:</strong> Kullanıcı kodu ve şifrenizi girin<br>
+                    <strong>Adım 2:</strong> "Giriş Yap" butonuna tıklayın<br>
+                    <strong>Adım 3:</strong> Başarılı girişten sonra ana panel açılacaktır
+                </div>
+                
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>İpucu:</strong> Giriş bilgileriniz oturum boyunca saklanır. Çıkış yapmadığınız sürece tekrar giriş yapmanıza gerek yoktur.
+                </div>
+            </div>
+            
+            <!-- 2. Fatura Listeleme -->
+            <div class="section" id="fatura-listeleme">
+                <h2><i class="fas fa-list"></i> 2. Fatura Listeleme ve Filtreleme</h2>
+                
+                <h3><i class="fas fa-filter"></i> Filtreleme Seçenekleri</h3>
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-calendar"></i>
+                        <div>
+                            <strong>Tarih Aralığı:</strong> Başlangıç ve bitiş tarihi seçerek faturaları filtreleyin
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Durum Filtresi:</strong> Onaylanmış, İptal Edilmiş veya Taslak faturaları görüntüleyin
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-search"></i>
+                        <div>
+                            <strong>Arama:</strong> Fatura numarası veya alıcı adına göre arama yapın
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="step-box">
+                    <strong>Filtreleme Nasıl Yapılır:</strong><br>
+                    1. Tarih aralığını seçin<br>
+                    2. Durum filtresini belirleyin (isteğe bağlı)<br>
+                    3. Arama kutusuna fatura no veya alıcı adı yazın (isteğe bağlı)<br>
+                    4. "Filtrele" butonuna tıklayın
+                </div>
+            </div>
+            
+            <!-- 3. Fatura Oluşturma -->
+            <div class="section" id="fatura-olusturma">
+                <h2><i class="fas fa-plus-circle"></i> 3. Fatura Oluşturma</h2>
+                
+                <h3><i class="fas fa-file-invoice"></i> Yeni Fatura Oluşturma</h3>
+                <p>"Yeni Fatura Oluştur" butonu ile tek tek fatura oluşturabilirsiniz.</p>
+                
+                <div class="step-box">
+                    <strong>Gerekli Bilgiler:</strong><br>
+                    • Alıcı bilgileri (VKN/TCKN, Unvan, Adres)<br>
+                    • Ürün/Hizmet detayları<br>
+                    • Miktar ve birim fiyat<br>
+                    • KDV oranı<br>
+                    • Fatura tarihi
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Önemli:</strong> Fatura oluşturduktan sonra GIB'e gönderilir ve onaylanması beklenir. Bu işlem birkaç dakika sürebilir.
+                </div>
+            </div>
+            
+            <!-- 4. Toplu Yükleme -->
+            <div class="section" id="toplu-yukleme">
+                <h2><i class="fas fa-file-excel"></i> 4. Toplu Fatura Yükleme</h2>
+                
+                <h3><i class="fas fa-upload"></i> Excel ile Toplu Yükleme</h3>
+                <p>Excel dosyası kullanarak birden fazla faturayı aynı anda oluşturabilirsiniz.</p>
+                
+                <div class="step-box">
+                    <strong>Adımlar:</strong><br>
+                    1. "Toplu Fatura Yükle" butonuna tıklayın<br>
+                    2. Excel şablonunu indirin<br>
+                    3. Şablonu fatura bilgileriyle doldurun<br>
+                    4. Doldurduğunuz dosyayı yükleyin<br>
+                    5. Sistem otomatik olarak faturaları oluşturacaktır
+                </div>
+                
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>İpucu:</strong> Excel şablonundaki sütun başlıklarını değiştirmeyin. Sadece veri satırlarını doldurun.
+                </div>
+            </div>
+            
+            <!-- 5. Mail Sistemi -->
+            <div class="section" id="mail-sistemi">
+                <h2><i class="fas fa-envelope"></i> 5. E-Posta Gönderme Sistemi</h2>
+                
+                <h3><i class="fas fa-paper-plane"></i> Fatura Maillerini Gönderme</h3>
+                <p>Oluşturduğunuz faturaları müşterilerinize e-posta ile gönderebilirsiniz.</p>
+                
+                <!-- Sistem Akış Diyagramı -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h4 style="color: #667eea; margin-bottom: 15px;">📊 Sistem Akışı</h4>
+                    <div style="text-align: center; font-family: monospace; line-height: 2;">
+                        <div style="background: #667eea; color: white; padding: 10px; border-radius: 5px; display: inline-block; margin: 5px;">
+                            1️⃣ Fatura Seç
+                        </div>
+                        <div style="font-size: 20px;">⬇️</div>
+                        <div style="background: #764ba2; color: white; padding: 10px; border-radius: 5px; display: inline-block; margin: 5px;">
+                            2️⃣ GIB'den HTML İndir
+                        </div>
+                        <div style="font-size: 20px;">⬇️</div>
+                        <div style="background: #11998e; color: white; padding: 10px; border-radius: 5px; display: inline-block; margin: 5px;">
+                            3️⃣ Puppeteer ile PDF Oluştur
+                        </div>
+                        <div style="font-size: 20px;">⬇️</div>
+                        <div style="background: #38ef7d; color: white; padding: 10px; border-radius: 5px; display: inline-block; margin: 5px;">
+                            4️⃣ PDF'i Mail Ekine Ekle
+                        </div>
+                        <div style="font-size: 20px;">⬇️</div>
+                        <div style="background: #f093fb; color: white; padding: 10px; border-radius: 5px; display: inline-block; margin: 5px;">
+                            5️⃣ SMTP ile Gönder
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <div>
+                            <strong>Otomatik E-posta Bulma:</strong> Sistem fatura detaylarından e-posta adresini otomatik çeker
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-file-pdf"></i>
+                        <div>
+                            <strong>PDF Eki:</strong> Fatura yüksek kaliteli PDF formatında ek olarak gönderilir (Puppeteer ile)
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-palette"></i>
+                        <div>
+                            <strong>Özelleştirilebilir Şablonlar:</strong> 3 farklı mail şablonu arasından seçim yapın
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <strong>Toplu Gönderim:</strong> Birden fazla faturayı aynı anda gönderin
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <strong>Hızlı İşlem:</strong> PDF oluşturma ~2-3 saniye, toplam süre ~5-7 saniye/fatura
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="step-box">
+                    <strong>Mail Gönderme Adımları:</strong><br>
+                    1️⃣ Fatura listesinden göndermek istediğiniz faturaları seçin<br>
+                    2️⃣ "Mail Gönder" butonuna tıklayın<br>
+                    3️⃣ E-posta adreslerini kontrol edin<br>
+                    4️⃣ "Gönder" butonuna tıklayın<br>
+                    5️⃣ İlerleme çubuğundan durumu takip edin<br>
+                    6️⃣ Başarılı/Başarısız raporu görüntüleyin
+                </div>
+                
+                <!-- PDF Oluşturma Süreci -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h4 style="color: white; margin-bottom: 15px;">🚀 PDF Oluşturma Teknolojisi</h4>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0;">
+                        <strong>Puppeteer (Chrome Headless)</strong> kullanılarak yüksek kaliteli PDF oluşturulur.<br>
+                        ✓ QR kodlar düzgün render edilir<br>
+                        ✓ Tüm stiller ve renkler korunur<br>
+                        ✓ Profesyonel görünüm<br>
+                        ✓ Ortalama süre: 2-3 saniye
+                    </p>
+                </div>
+                
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Başarılı:</strong> Gönderilen her mail için detaylı rapor alırsınız.
+                </div>
+            </div>
+            
+            <!-- 6. SMTP Ayarları -->
+            <div class="section" id="smtp-ayarlari">
+                <h2><i class="fas fa-cog"></i> 6. SMTP Ayarları</h2>
+                
+                <h3><i class="fas fa-server"></i> SMTP Sunucu Yapılandırması</h3>
+                <p>Mail göndermek için SMTP sunucu ayarlarınızı yapılandırın.</p>
+                
+                <!-- SMTP Bağlantı Diyagramı -->
+                <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                    <h4 style="color: #856404; margin-bottom: 15px;">🔐 SMTP Bağlantı Şeması</h4>
+                    <div style="text-align: center; font-family: monospace; line-height: 2; color: #856404;">
+                        <div style="display: inline-block; text-align: left;">
+                            <div>📧 <strong>Sizin Sistemiz</strong></div>
+                            <div style="margin-left: 20px;">⬇️ SMTP Protokolü</div>
+                            <div>🌐 <strong>SMTP Sunucu</strong> (smtp.office365.com:587)</div>
+                            <div style="margin-left: 20px;">⬇️ TLS/SSL Şifreleme</div>
+                            <div>✅ <strong>Kimlik Doğrulama</strong> (Kullanıcı + Şifre)</div>
+                            <div style="margin-left: 20px;">⬇️ Mail Gönderimi</div>
+                            <div>📬 <strong>Alıcı</strong> (Müşteri)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-box">
+                    <strong>Gerekli Bilgiler:</strong><br>
+                    • SMTP Sunucu Adresi (örn: smtp.office365.com)<br>
+                    • Port (587 veya 465)<br>
+                    • Şifreleme (TLS veya SSL)<br>
+                    • Kullanıcı Adı (E-posta)<br>
+                    • Şifre veya Uygulama Şifresi<br>
+                    • Gönderen Bilgileri
+                </div>
+                
+                <h3><i class="fas fa-envelope-open-text"></i> Popüler SMTP Ayarları</h3>
+                
+                <div class="code-box">
+<strong>Outlook/Office365:</strong>
+Sunucu: smtp.office365.com
+Port: 587
+Şifreleme: TLS
+
+<strong>Gmail:</strong>
+Sunucu: smtp.gmail.com
+Port: 587
+Şifreleme: TLS
+Not: Gmail için "Uygulama Şifresi" kullanın
+
+<strong>Yandex:</strong>
+Sunucu: smtp.yandex.com
+Port: 587
+Şifreleme: TLS
+                </div>
+                
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>İpucu:</strong> "Bağlantıyı Test Et" butonu ile ayarlarınızı kontrol edin.
+                </div>
+            </div>
+            
+            <!-- 7. Mail Şablonları -->
+            <div class="section" id="mail-sablonlari">
+                <h2><i class="fas fa-palette"></i> 7. Mail Şablonları</h2>
+                
+                <h3><i class="fas fa-th-large"></i> Şablon Türleri</h3>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <strong>Profesyonel (Varsayılan):</strong> Kurumsal görünüm, mavi tonlar, modern tasarım
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-magic"></i>
+                        <div>
+                            <strong>Modern (Minimalist):</strong> Sade ve şık, gradient renkler, minimal tasarım
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-landmark"></i>
+                        <div>
+                            <strong>Klasik (Resmi):</strong> Geleneksel görünüm, siyah-beyaz, resmi dil
+                        </div>
+                    </li>
+                </ul>
+                
+                <h3><i class="fas fa-paint-brush"></i> Özelleştirme Seçenekleri</h3>
+                
+                <div class="step-box">
+                    <strong>Ekleyebilecekleriniz:</strong><br>
+                    • Firma Logosu (URL olarak)<br>
+                    • Özel Mesaj (ödeme koşulları, teşekkür mesajı vb.)<br>
+                    • Şablon Tipi Seçimi
+                </div>
+                
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>İpucu:</strong> "Şablonu Önizle" butonu ile değişikliklerinizi görebilirsiniz.
+                </div>
+            </div>
+            
+            <!-- 8. İçe/Dışa Aktarma -->
+            <div class="section" id="ice-disa-aktarma">
+                <h2><i class="fas fa-exchange-alt"></i> 8. İçe/Dışa Aktarma</h2>
+                
+                <!-- JSON Yapısı Görseli -->
+                <div style="background: #2d3748; color: #e2e8f0; padding: 20px; border-radius: 8px; margin: 20px 0; font-family: monospace; font-size: 13px;">
+                    <h4 style="color: #48bb78; margin-bottom: 15px;">📄 JSON Dosya Yapısı</h4>
+                    <pre style="margin: 0; color: #e2e8f0;">{
+  "version": "1.0",
+  "export_date": "2025-11-13 18:30:00",
+  "smtp_settings": {
+    "server": {
+      "host": "smtp.office365.com",
+      "port": 587,
+      "encryption": "tls"
+    },
+    "auth": {
+      "username": "firma@example.com",
+      "password": "********"
+    },
+    "sender": {
+      "email": "firma@example.com",
+      "name": "Firma Adı"
+    },
+    "template": {
+      "type": "default",
+      "logo_url": "https://...",
+      "custom_message": "..."
+    }
+  }
+}</pre>
+                </div>
+                
+                <h3><i class="fas fa-download"></i> SMTP Ayarlarını Dışa Aktarma</h3>
+                <p>SMTP ayarlarınızı JSON dosyası olarak yedekleyin.</p>
+                
+                <div class="step-box">
+                    <strong>Dışa Aktarma:</strong><br>
+                    1. SMTP Ayarları modalını açın<br>
+                    2. "Dışa Aktar (JSON)" butonuna tıklayın<br>
+                    3. JSON dosyası otomatik indirilecektir
+                </div>
+                
+                <h3><i class="fas fa-upload"></i> SMTP Ayarlarını İçe Aktarma</h3>
+                <p>Daha önce dışa aktardığınız ayarları geri yükleyin.</p>
+                
+                <div class="step-box">
+                    <strong>İçe Aktarma:</strong><br>
+                    1. SMTP Ayarları modalını açın<br>
+                    2. "İçe Aktar (JSON)" butonuna tıklayın<br>
+                    3. JSON dosyasını seçin<br>
+                    4. Ayarlar otomatik yüklenecektir
+                </div>
+                
+                <div class="success-box">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Avantajlar:</strong> Farklı bilgisayarlar arasında ayarları kolayca taşıyın, yedekleme yapın.
+                </div>
+            </div>
+            
+            <!-- 9. Raporlama -->
+            <div class="section" id="raporlama">
+                <h2><i class="fas fa-chart-bar"></i> 9. Raporlama</h2>
+                
+                <h3><i class="fas fa-file-excel"></i> Excel Raporu Oluşturma</h3>
+                <p>"Rapor Oluştur" butonu ile fatura listesini Excel formatında indirin.</p>
+                
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-table"></i>
+                        <div>
+                            <strong>Detaylı Bilgiler:</strong> Fatura no, tarih, alıcı, tutar, durum
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-filter"></i>
+                        <div>
+                            <strong>Filtrelenmiş Veri:</strong> Sadece seçtiğiniz filtrelere uygun faturalar
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-calculator"></i>
+                        <div>
+                            <strong>Otomatik Hesaplamalar:</strong> Toplam tutar, KDV tutarı vb.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 10. İptal İşlemleri -->
+            <div class="section" id="iptal-islemleri">
+                <h2><i class="fas fa-ban"></i> 10. İptal İşlemleri</h2>
+                
+                <h3><i class="fas fa-times-circle"></i> Fatura İptali</h3>
+                <p>Onaylanmış faturaları iptal edebilirsiniz.</p>
+                
+                <div class="step-box">
+                    <strong>İptal Adımları:</strong><br>
+                    1. İptal etmek istediğiniz faturayı seçin<br>
+                    2. "İptal Et" butonuna tıklayın<br>
+                    3. İptal nedenini seçin<br>
+                    4. Onaylayın
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Dikkat:</strong> İptal edilen faturalar geri alınamaz. İptal işlemi GIB'e bildirilir.
+                </div>
+                
+                <h3><i class="fas fa-bolt"></i> Hızlı İptal</h3>
+                <p>Birden fazla faturayı aynı anda iptal edebilirsiniz.</p>
+                
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>İpucu:</strong> Toplu iptal işleminde tüm faturalar için aynı iptal nedeni kullanılır.
+                </div>
+            </div>
+            
+            <!-- Hızlı Başlangıç -->
+            <div class="section" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; border-left: none;">
+                <h2 style="color: white;"><i class="fas fa-rocket"></i> Hızlı Başlangıç Rehberi</h2>
+                <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <h3 style="color: white; margin-top: 0;">5 Dakikada Mail Gönderimi</h3>
+                    <ol style="color: white; line-height: 2; font-size: 16px;">
+                        <li><strong>SMTP Ayarları:</strong> Sağ üstteki "SMTP Ayarları" butonuna tıklayın</li>
+                        <li><strong>Bilgileri Girin:</strong> Mail sunucu bilgilerinizi girin (Outlook/Gmail)</li>
+                        <li><strong>Test Edin:</strong> "Bağlantıyı Test Et" ile kontrol edin</li>
+                        <li><strong>Kaydedin:</strong> "Ayarları Kaydet" butonuna tıklayın</li>
+                        <li><strong>Fatura Seçin:</strong> Göndermek istediğiniz faturaları seçin</li>
+                        <li><strong>Gönderin:</strong> "Mail Gönder" butonuna tıklayın ve bekleyin!</li>
+                    </ol>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 5px; margin-top: 15px;">
+                        <strong>💡 İpucu:</strong> İlk kez kullanıyorsanız, önce tek bir fatura ile test edin!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Destek -->
+            <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-left: none;">
+                <h2 style="color: white;"><i class="fas fa-life-ring"></i> Destek ve İletişim</h2>
+                <p style="color: rgba(255,255,255,0.9);">
+                    Herhangi bir sorunuz veya sorununuz mu var? Bizimle iletişime geçin:
+                </p>
+                <ul class="feature-list" style="color: white;">
+                    <li>
+                        <i class="fas fa-envelope" style="color: white;"></i>
+                        <div>
+                            <strong>E-posta:</strong> destek@deokyazilim.com	
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone" style="color: white;"></i>
+                        <div>
+                            <strong>Telefon:</strong> +90 541 551 73 46
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-globe" style="color: white;"></i>
+                        <div>
+                            <strong>Web:</strong> www.deokyazilim.com
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
