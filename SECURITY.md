@@ -23,7 +23,7 @@ Güvenlik açığı bulduysanız, lütfen **herkese açık issue açmayın**. Bu
    - [Security Advisory Oluştur](https://github.com/denizZz009/deok-fatura-entegrasyon/security/advisories/new)
 
 2. **Veya e-posta gönderin:**
-   - E-posta: security@example.com
+   - E-posta: denizegemen@deokyazilim.com
    - Konu: [SECURITY] E-Arşiv Fatura - Güvenlik Açığı
 
 ### Bildirimde Bulunması Gerekenler
@@ -343,7 +343,7 @@ Güvenlik açıklarını sorumlu bir şekilde bildiren kişilere teşekkür eder
 Güvenlik ile ilgili sorularınız için:
 
 - **Security Advisory:** [GitHub Security](https://github.com/denizZz009/deok-fatura-entegrasyon/security)
-- **E-posta:** security@example.com
+- **E-posta:** denizegemen@deokyazilim.com
 
 ---
 
